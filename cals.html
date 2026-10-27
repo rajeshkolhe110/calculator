@@ -5,135 +5,236 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AutoMekz 7 Seg Unit Calculator</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      padding: 20px 10px;
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
+      align-items: center;
     }
 
     .calculator {
       background: white;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 480px;
+    }
+
+    h2 {
+      margin: 0 0 20px 0;
+      color: #1a202c;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     label {
       display: block;
-      margin-top: 15px;
-      color: #444;
+      margin-bottom: 6px;
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 600;
     }
 
     input, select {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 15px;
+      color: #2d3748;
+      background-color: #f7fafc;
+      transition: all 0.2s ease;
     }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3182ce;
+      background-color: #fff;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
     }
 
-    button:hover {
-      background-color: #0056b3;
+    .section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #718096;
+      margin: 20px 0 10px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed #e2e8f0;
+      font-weight: 700;
     }
 
     .result {
       margin-top: 25px;
-      padding: 15px;
-      background: #f8f9fa;
-      border: 1px solid #ced4da;
-      border-radius: 6px;
-      font-weight: bold;
-      color: #212529;
+      padding: 18px;
+      background: #ebf8ff;
+      border: 1px solid #bee3f8;
+      border-radius: 12px;
+      color: #2b6cb0;
+    }
+
+    .result-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .result-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: #2c5282;
+      line-height: 1.3;
+    }
+
+    .result-val span {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #4a5568;
+      margin-top: 2px;
     }
   </style>
 </head>
 <body>
+
   <div class="calculator">
     <h2>AutoMekz Jumbo Display Calculator</h2>
 
-    <label for="model">Select Display Model:</label>
-    <select id="model">
-      <option value="34,24">1.00" (34x24 mm)</option>
-      <option value="69.7,47.8">2.30" (70x47 mm)</option>
-      <option value="122,90">4.00" (122x90 mm)</option>
-	  <option value="163,111.5">6.00" (187x112 mm)</option>
-      <option value="220,142">8.00" (235x140 mm)</option>
-	  <option value="320,160">P10 (320x160 mm)</option>
-    </select>
+    <div class="form-group">
+      <label for="model">Display Model</label>
+      <select id="model">
+        <option value="34,24">1.00" (34x24 mm)</option>
+        <option value="69.7,47.8">2.30" (70x47 mm)</option>
+        <option value="122,90">4.00" (122x90 mm)</option>
+        <option value="163,111.5">6.00" (187x112 mm)</option>
+        <option value="220,142">8.00" (235x140 mm)</option>
+        <option value="320,160">P10 (320x160 mm)</option>
+      </select>
+    </div>
 
-    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="rows">Rows</label>
+        <input type="number" id="rows" value="1" min="1">
+      </div>
+      <div class="form-group">
+        <label for="columns">Columns</label>
+        <input type="number" id="columns" value="4" min="1">
+      </div>
+    </div>
 
-    <label>Columns:</label>
-    <input type="number" id="columns" value="4">
+    <div class="form-group">
+      <label for="rowgap">Row Gap (mm)</label>
+      <input type="number" id="rowgap" value="0" min="0" step="any">
+    </div>
 	
-    <label>Rowgap:</label>
-    <input type="number" id="rowgap" value="0">
-	
-	<label>Rows:</label>
-    <input type="number" id="rows" value="1">
-    <label>Top Frame (mm):</label>
-    <input type="number" id="top" value="25">
+    <div class="section-title">Outer Frame Borders (mm)</div>
 
-    <label>Bottom Frame (mm):</label>
-    <input type="number" id="bottom" value="25">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="top">Top</label>
+        <input type="number" id="top" value="25" min="0" step="any">
+      </div>
+      <div class="form-group">
+        <label for="bottom">Bottom</label>
+        <input type="number" id="bottom" value="25" min="0" step="any">
+      </div>
+    </div>
 
-    <label>Left Frame (mm):</label>
-    <input type="number" id="left" value="25">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="left">Left</label>
+        <input type="number" id="left" value="25" min="0" step="any">
+      </div>
+      <div class="form-group">
+        <label for="right">Right</label>
+        <input type="number" id="right" value="25" min="0" step="any">
+      </div>
+    </div>
 
-    <label>Right Frame (mm):</label>
-    <input type="number" id="right" value="25">
-
-    <button onclick="calculate()">Calculate Dimensions</button>
-
-    <div class="result" id="result"></div>
+    <div class="result">
+      <div class="result-title">Total Estimated Dimensions</div>
+      <div class="result-grid">
+        <div class="result-val" id="resHeight">
+          0 mm
+          <span>0.00 inches</span>
+        </div>
+        <div class="result-val" id="resWidth">
+          0 mm
+          <span>0.00 inches</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
     function calculate() {
-      const [dispHeight, dispWidth] = document.getElementById("model").value.split(',').map(Number);
-      const rows = parseInt(document.getElementById("rows").value);
-	  const gap = parseFloat(document.getElementById("rowgap").value);
-      const cols = parseInt(document.getElementById("columns").value);
-      const top = parseFloat(document.getElementById("top").value);
-      const bottom = parseFloat(document.getElementById("bottom").value);
-      const left = parseFloat(document.getElementById("left").value);
-      const right = parseFloat(document.getElementById("right").value);
+      const modelValue = document.getElementById("model").value;
+      const [dispHeight, dispWidth] = modelValue.split(',').map(Number);
+      
+      const rows = Math.max(1, parseInt(document.getElementById("rows").value) || 1);
+      const cols = Math.max(1, parseInt(document.getElementById("columns").value) || 1);
+      const gap = parseFloat(document.getElementById("rowgap").value) || 0;
+      
+      const top = parseFloat(document.getElementById("top").value) || 0;
+      const bottom = parseFloat(document.getElementById("bottom").value) || 0;
+      const left = parseFloat(document.getElementById("left").value) || 0;
+      const right = parseFloat(document.getElementById("right").value) || 0;
 
-      const totalHeight = (dispHeight * rows) + top + bottom+gap;
+      // Correctly computes row gaps only between multiple adjacent rows
+      const totalGapsHeight = gap * (rows - 1);
+      const totalHeight = (dispHeight * rows) + totalGapsHeight + top + bottom;
       const totalWidth = (dispWidth * cols) + left + right;
 
       const heightInches = (totalHeight / 25.4).toFixed(2);
       const widthInches = (totalWidth / 25.4).toFixed(2);
 
-      document.getElementById("result").innerHTML = `
-        Total Dimensions:<br>
-        Height: ${totalHeight} mm (${heightInches} inches)<br>
-        Width: ${totalWidth} mm (${widthInches} inches)
+      document.getElementById("resHeight").innerHTML = `
+        ${totalHeight.toFixed(1).replace('.0', '')} mm
+        <span>Height: ${heightInches} in</span>
+      `;
+      document.getElementById("resWidth").innerHTML = `
+        ${totalWidth.toFixed(1).replace('.0', '')} mm
+        <span>Width: ${widthInches} in</span>
       `;
     }
+
+    // Attach immediate change events to all functional input components
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+      input.addEventListener('input', calculate);
+    });
+
+    // Run core calculations on initial page paint
+    calculate();
   </script>
 </body>
 </html>
